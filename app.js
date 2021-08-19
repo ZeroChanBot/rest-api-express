@@ -62,23 +62,23 @@ app.post('/user/register', async(req, res) => {
             if (result.length != 0) return res.render('register', { message: "Username already exists!", messageClass: 'red'})
 			const TokenNya = crypto.randomBytes(35).toString('hex')
             transporter.sendMail({
-                from: `"ArugaZ-Restful API" <${process.env.mail_FROM}>`, // sender address
+                from: `"ZeroChan-Rest API" <${process.env.mail_FROM}>`, // sender address
                 to: `"${userName}" <${email}>`, // list of receivers
-                subject: "ArugaZ | Email Verification", // Subject line
-                text: "ArugaZ - Restful API", // plain text body
+                subject: "ZeroChan | Email Verification", // Subject line
+                text: "ZeroChan - Rest API", // plain text body
                 html: `
                 <p>Hallo ${firstName} ${lastName}</p></br>
-                <p>Congratulations! You will soon bind this email address to your ArugaZ - Restful API account.</p></br>
+                <p>Congratulations! You will soon bind this email address to your ZeroChan - Rest API account.</p></br>
                 <p>You can click on the link below to verify this email address:</p>
                 <p><a href='//${req.rawHeaders[1]}/user/login?q=${TokenNya}' target='_blank'>https://${req.rawHeaders[1]}/user/login?q=${TokenNya}</a></p></br>
 				<p>Email: ${email}</p>
 				<p>Password: ${password}</p>
 				</br>
-                <p>Regards, ArugaZ</p>
+                <p>Regards, ZeroChan</p>
                 `, // html body
             }, (err) => {
                 if (err) return res.render('register', { message: "Error on mail sender!", messageClass: 'red' })
-                apiSQL.query("INSERT INTO `restkey` SET?", { updateAt: mysqlTimestamps, createdAt: mysqlTimestamps, firstname: firstName, lastname: lastName, username: userName, email: email, password: hashedPassword, secretToken: TokenNya, apiKey: 'arugaz'+ crypto.randomBytes(Math.floor(Math.random() * 2) +5).toString('hex'), recovery: 'success', active: 'false' }, function(err, result) {
+                apiSQL.query("INSERT INTO `restkey` SET?", { updateAt: mysqlTimestamps, createdAt: mysqlTimestamps, firstname: firstName, lastname: lastName, username: userName, email: email, password: hashedPassword, secretToken: TokenNya, apiKey: 'zerowebot'+ crypto.randomBytes(Math.floor(Math.random() * 2) +5).toString('hex'), recovery: 'success', active: 'false' }, function(err, result) {
                     if (err) return res.render('register', { message: "Error on database!", messageClass: 'red' })
                     res.redirect('/user/login?q=RegistrationComplete')
                 })
@@ -120,10 +120,10 @@ app.post('/user/recovery', async(req, res) => {
 			if (result.length == 0) return res.render('recovery', { message: "Email not registered!", messageClass: 'red' })
 			const TokenNya = crypto.randomBytes(35).toString('hex')
 			transporter.sendMail({
-				from: `"ArugaZ-Restful API" <${process.env.mail_FROM}>`, // sender address
+				from: `"ZeroChan-Rest API" <${process.env.mail_FROM}>`, // sender address
 				to: `"${result[0].username}" <${req.body.email}>`, // list of receivers
-				subject: "ArugaZ | Password Recovery", // Subject line
-				text: "ArugaZ - Restful API", // plain text body
+				subject: "ZeroChan | Password Recovery", // Subject line
+				text: "ZeroChan - Restful API", // plain text body
 				html: `
 				<p>Hallo ${result[0].firstname} ${result[0].lastname}</p></br>
 				<p>Someone tried to reset your password, is that you? If that's you, please click the link below:</p>
